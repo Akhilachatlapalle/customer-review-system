@@ -168,6 +168,8 @@ definitions:
         example: 400
   CookieRequest:
     type: object
+    required:
+      - Cookie
     properties:
       Cookie:
         type: string
@@ -175,15 +177,19 @@ definitions:
         example: 3c4c26ca-3f68-4ce9-9c19-0fd6fa1ce986
   SignupRequest:
     type: object
+    required: 
+      - Username
+      - Password
+      - ConfirmPassword
     properties:
       Username:
         type: string
         description: username
       Password:
-        type: integer
+        type: string
         description: password
       ConfirmPassword:
-        type: integer
+        type: string
         description: password to confirm
   LoginResponse:
     type: object
@@ -220,6 +226,10 @@ definitions:
         example: 200
   PostRatingRequest:
     type: object
+    required: 
+      - Cookie
+      - Product
+      - Rating
     properties:
       Cookie:
         type: string
@@ -235,10 +245,13 @@ definitions:
         enum: [1, 2, 3, 4, 5]
   LoginRequest:
     type: object
+    required: 
+      - Username
+      - Password
     properties:
       Username:
         type: string
         description: username
       Password:
-        type: integer
+        type: string
         description: password
