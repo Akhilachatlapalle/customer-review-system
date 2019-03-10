@@ -14,8 +14,7 @@ services:
       - app-tier
 
   app:
-    image: app
-    #build: .
+    build: .
     container_name: app_container
     networks:
       - app-tier
