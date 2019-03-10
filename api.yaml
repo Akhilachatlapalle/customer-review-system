@@ -1,0 +1,244 @@
+---
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Customer Review System
+host: localhost:8080
+tags: 
+- name: Users
+- name: Products
+- name: Product
+schemes:
+  - https
+  
+paths:
+  '/signup':
+    post:
+      summary: Signup to the system
+      tags: 
+      - Users
+      produces:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          schema:
+            $ref: '#/definitions/SignupRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+  
+  '/login':
+    post:
+      summary: Login to the system. Returns a cookie in the response
+      tags: 
+      - Users
+      produces:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+
+  
+  '/products':
+    get:
+      summary: List all products in the system
+      tags: 
+      - Products
+      produces:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          schema:
+            $ref: '#/definitions/CookieRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ProductListResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'  
+  '/product/rating':
+    post:
+      summary: Provide rating to a product
+      tags: 
+      - Product
+      produces:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          schema:
+            $ref: '#/definitions/PostRatingRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+  '/products/ratings':
+    post:
+      summary: Get ratings of all products
+      tags: 
+      - Products
+      produces:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          schema:
+            $ref: '#/definitions/CookieRequest'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ProductsRatingResponse'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/NotFoundResponse'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/BadRequestResponse'
+definitions:
+  NotFoundResponse:
+    type: object
+    properties:
+      detail:
+        type: string
+  SuccessResponse:
+    type: object
+    properties:
+      Data:
+        type: string
+        description: Some success message
+      Status:
+        type: integer
+        description: Status Code
+        example: 200
+  BadRequestResponse:
+    type: object
+    properties:
+      Error:
+        type: string
+        description: Some error description
+      Status:
+        type: integer
+        description: Status Code
+        example: 400
+  CookieRequest:
+    type: object
+    properties:
+      Cookie:
+        type: string
+        description: cookie sent in the login response
+        example: 3c4c26ca-3f68-4ce9-9c19-0fd6fa1ce986
+  SignupRequest:
+    type: object
+    properties:
+      Username:
+        type: string
+        description: username
+      Password:
+        type: integer
+        description: password
+      ConfirmPassword:
+        type: integer
+        description: password to confirm
+  LoginResponse:
+    type: object
+    properties:
+      Data:
+        type: string
+        description: Some success message
+        example: Cookie to use is XXXXX
+      Status:
+        type: integer
+        description: Status Code
+        example: 200
+  ProductListResponse:
+    type: object
+    properties:
+      Data:
+        type: string
+        description: List of products
+        example: [ProductA ProductB ProductC ProductD]
+      Status:
+        type: integer
+        description: Status Code
+        example: 200
+  ProductsRatingResponse:
+    type: object
+    properties:
+      Data:
+        type: string
+        description: List of products
+        example: [{ProductA ,[]}]
+      Status:
+        type: integer
+        description: Status Code
+        example: 200
+  PostRatingRequest:
+    type: object
+    properties:
+      Cookie:
+        type: string
+        description: cookie sent in the login response
+        example: 3c4c26ca-3f68-4ce9-9c19-0fd6fa1ce986
+      Product:
+        type: string
+        description: product id
+        example: Product A
+      Rating:
+        type: integer
+        description: rating
+        enum: [1, 2, 3, 4, 5]
+  LoginRequest:
+    type: object
+    properties:
+      Username:
+        type: string
+        description: username
+      Password:
+        type: integer
+        description: password

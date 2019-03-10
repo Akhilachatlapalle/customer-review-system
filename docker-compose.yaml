@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  database:
+    image: redis
+    container_name: redis_container
+    ports:
+      - '6379:6379'
+    networks:
+      - app-tier
+
+  app:
+    image: app
+    #build: .
+    container_name: app_container
+    networks:
+      - app-tier
+    ports:
+        - "127.0.0.1:8080:8080"
+    links:
+      - database
+    depends_on:
+      - database
